@@ -1,29 +1,35 @@
 # Shelf
 
-Shelf is a lightweight utility for organizing book data into simple JavaScript objects. It keeps track of individual books and groups them into named collections for easy access.
+Shelf is a lightweight utility for loading, organizing, and persisting book data in simple JavaScript objects. It tracks individual books, groups them into named collections, and can save/load them from a JSON file on disk.
 
 ## Shelf class
 
 ### Properties
 
-- `books`: an object keyed by book name. Each entry contains a parsed book record.
-- `collections`: an object keyed by collection name. Each collection stores its books in a `books` array.
+- `books`: an object keyed by book name. Each value is a parsed book object.
+- `collections`: an object keyed by collection name. Each collection stores a `books` array of selected book entries.
+
+### Constructor
+
+- `constructor(path)`: optional initializer that reads `shelfData.json` from the given directory and restores the current `books` and `collections` state.
 
 ### Methods
 
-- `addBook(name, path)`: async method that reads a book file from the given path, parses the content, stores it in `books[name]`, and returns the `Shelf` instance.
-- `collect(arr, name)`: accepts either a single book name or an array of names, resolves them into book objects, stores them under `collections[name].books`, and returns the `Shelf` instance.
-- `getBook(name)`: returns the book object stored in `books[name]`.
-- `getCollection(name)`: returns the collection object stored in `collections[name]`.
+- `addBook(arr)`: accepts an array of `[name, path]` entries, reads each book file, parses the content, stores each result in `books`, and resolves all additions with `Promise.all()`.
+- `collect(arr, name)`: accepts a single book name or an array of names, resolves them into book objects, and stores them in `collections[name].books`.
+- `save(path)`: writes the current `books` and `collections` state to `path + "/shelfData.json"` and returns the current `Shelf` instance.
+- `getBook(name)`: returns the book entry stored under `books[name]`.
+- `getCollection(name)`: returns the collection entry stored under `collections[name]`.
 
 ### Parsed book shape
 
-Each book added via `addBook` is stored as an object with fields such as:
+Each book parsed by `createBook()` includes fields such as:
 
 - `sponsers`
-- `cast`
+- `cast` (array of cast names)
 - `description`
 - `title`
 - `cover`
-- `copy`
-- `id`
+- `copy` (an object of chapter sections, grouped by chapter label)
+
+The `copy` field is built from chapter markers in the source text, where entries beginning with `$` start a new chapter section and following lines are grouped under that chapter.
