@@ -1,0 +1,18 @@
+{
+  "name": "shelfjs",
+  "version": "1.0.0",
+  "description": "For organising books in to JS object structures",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "books",
+    "library",
+    "copy",
+    "data"
+  ],
+  "author": "Heinrich Ackermann",
+  "license": "MIT",
+  "type": "module"
+}
