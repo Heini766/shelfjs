@@ -33,7 +33,7 @@ addBook(arr) {
     const newBook = createBook(path)
     newBook
     .then(book => this.books[name] = book)
-    .catch(err => console.log(err.message))
+    .catch(err => {throw err})
 
     return newBook
   })
@@ -93,7 +93,7 @@ function createBook(p) {
       if (v === "" && i < arr.length - 1) return arr[i - 1]
     }).filter(v => v !== undefined)
     
-    cast = cast.split(",")
+    cast = cast.includes(",") ? cast.split(",") : "null"
     
     return { sponsers, cast, description, title, cover, copy }
   })
