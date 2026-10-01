@@ -41,7 +41,7 @@ addBook(arr) {
   return Promise.all(arr)
 }
 
-collect(arr, name) {
+collect(arr, name, config = {}) {
 
   arr = Array.isArray(arr) ? arr : [arr]
   if (!this.getCollection(name)) this.collections[name] = {}
@@ -49,6 +49,10 @@ collect(arr, name) {
     const book = this.getBook(bookName)
     return book
   }).filter(b => {if (b) return true})
+
+  const curD = this.collections[name]
+  if (Array.isArray(config) || typeof(config) !== "object") throw new Error(`Collection with name ${name} failed. Config has to be an object`)
+  this.collections[name] = { ...curD, ...config }
   
   return this
   
