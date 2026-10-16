@@ -63,7 +63,7 @@ save(path) {
   const d = JSON.stringify({books, collections})
 
   writeFile(path + "/shelfData.json", d)
-  .catch(err => console.log(err.message))
+  .catch(err => console.error(err))
 
   return this
   
@@ -101,7 +101,7 @@ function createBook(p) {
     
     return { sponsers, cast, description, title, cover, copy }
   })
-  .catch(err => console.log(err.message))
+  .catch(err => console.error(err))
   
 }
 
